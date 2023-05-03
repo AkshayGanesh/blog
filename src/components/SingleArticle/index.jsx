@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React from "react";
+import './index.css'
 
 const SingleArticle = () => {
   return (
@@ -127,9 +128,8 @@ const SingleArticle = () => {
                 </p>
                 <p>
                   <iframe
-                    height="480px"
-                    scrolling="no"
-                    width="595px"
+                    className="mycythonPrgm"
+                    scrolling="auto"
                     // border="0"
                     transform="scale(1)"
                     src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=auto&width=680&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=from%2520libc.math%2520cimport%2520pow%250A%250Acdef%2520double%2520square_and_add%2520%28double%2520x%29%253A%250A%2520%2520%2520%2520%2522%2522%2522%250A%2520%2520%2520%2520Compute%2520x%255E2%2520%252B%2520x%2520as%2520double.%250A%2520%2520%2520%2520This%2520is%2520a%2520cdef%2520function%2520that%2520can%2520be%2520called%2520from%2520within%250A%2520%2520%2520%2520a%2520Cython%2520program%252C%2520but%2520not%2520from%2520Python.%250A%2520%2520%2520%2520%2522%2522%2522%250A%2520%2520%2520%2520return%2520x%2520%252B%2520pow%28x%252C%25202.0%29%250A%250Acpdef%2520print_result%2520%28double%2520x%29%253A%250A%2520%2520%2520%2520%2522%2522%2522%250A%2520%2520%2520%2520This%2520is%2520a%2520cpdef%2520function%2520that%2520can%2520be%2520called%2520from%2520Python.%250A%2520%2520%2520%2520%2522%2522%2522%250A%2520%2520%2520%2520print%28f%2522%28%257Bx%257D%2520%255E%25202%29%2520%252B%2520%257Bx%257D%2520%253D%2520%257Bsquare_and_add%28x%29%257D%2522%29"
@@ -141,9 +141,8 @@ const SingleArticle = () => {
                 </p>
                 <p>
                   <iframe
-                    height="264px"
-                    scrolling="no"
-                    width="472px"
+                    className="testerPrgm"
+                    scrolling="auto"
                     // border="0"
                     transform="scale(1)"
                     src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=python&width=680&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=%2523%2520Import%2520the%2520extension%2520module%2520my_cython.%250Aimport%2520my_cython%250A%250A%2523%2520Call%2520the%2520print_result%2520method%2520%250Amy_cython.print_result%2823.0%29"
@@ -155,9 +154,8 @@ const SingleArticle = () => {
                 </p>
                 <p>
                   <iframe
-                    height="313px"
-                    scrolling="no"
-                    width="595px"
+                    className="setupPrgm"
+                    scrolling="auto"
                     // border="0"
                     transform="scale(1)"
                     src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=python&width=680&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=from%2520distutils.core%2520import%2520Extension%252C%2520setup%250Afrom%2520Cython.Build%2520import%2520cythonize%250A%250A%2523%2520define%2520an%2520extension%2520that%2520will%2520be%2520cythonized%2520and%2520compiled%250Aext%2520%253D%2520Extension%28name%253D%2522my_cython%2522%252C%2520sources%253D%255B%2522my_cython.pyx%2522%255D%29%250Asetup%28ext_modules%253Dcythonize%28ext%29%29"
@@ -172,9 +170,8 @@ const SingleArticle = () => {
                 </p>
                 <p>
                   <iframe
-                    height="233px"
-                    scrolling="no"
-                    width="814px"
+                    className="compilePrgm"
+                    scrolling="auto"
                     // border="0"
                     transform="scale(1)"
                     src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=application%2Fx-sh&width=680&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=%2524%2520ls%250Amy_cython.pyx%2520%2520setup.py%2520%2520tester.py%250A%2524%2520python%2520setup.py%2520build_ext%2520--inplace%250A%2524%2520ls%250Abuild%2520%2520my_cython.c%2520%2520my_cython.cpython-34m.so%2520%2520my_cython.pyx%2520%2520setup.py%2520%2520tester.py"
@@ -187,9 +184,8 @@ const SingleArticle = () => {
                 </p>
                 <p>
                   <iframe
-                    height="213px"
-                    scrolling="no"
-                    width="350px"
+                    className="testPrgm"
+                    scrolling="auto"
                     // border="0"
                     transform="scale(1)"
                     src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=application%2Fx-sh&width=680&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=%2524%2520python%2520test.py%250A%2823.0%2520%255E%25202%29%2520%252B%252023.0%2520%253D%2520552.0%250A"

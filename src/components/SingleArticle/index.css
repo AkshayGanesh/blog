@@ -1,0 +1,45 @@
+@media(max-width: 1200px){
+    .testerPrgm{
+        height: 100%;
+        max-width: 100%;
+    }
+    .mycythonPrgm{
+        height: 100%;
+        width: 100%;
+    }
+    .setupPrgm{
+        height: 100%;
+        width: 100%;
+    }
+    .compilePrgm{
+        height: 100%;
+        width: 100%;
+    }
+    .testPrgm{
+        height: 100%;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1200px) and (max-width :2000px){
+    .testerPrgm{
+        height: 264px;
+        width: 472px;
+    }
+    .mycythonPrgm{
+        height: 480px;
+        width: 595px;
+    }
+    .setupPrgm{
+        height: 313px;
+        width: 595px;
+    }
+    .compilePrgm{
+        height: 233px;
+        width: 814px;
+    }
+    .testPrgm{
+        height: 213px;
+        width: 350px;
+    }
+}
