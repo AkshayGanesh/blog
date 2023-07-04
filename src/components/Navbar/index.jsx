@@ -17,9 +17,9 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/">Home</Link>
               </li>
-              {/* <li className="nav-item">
-                <Link classname="nav-link" to="/articles/create">Write New Article</Link>
-              </li> */}
+              <li className="nav-item">
+                <Link className="nav-link" to="/articles/create">Write New Article</Link>
+              </li>
               {/* <li className="nav-item">
                 <a className="nav-link" href="#">Hello Guest!
                   <i className="fa fa-caret-down" />

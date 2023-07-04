@@ -20,7 +20,7 @@ const Login = () => {
           <span className="custom-control-indicator" />
           <span className="custom-control-description">Remember me</span>
         </label>
-        <a className="text-muted hover-primary fs-13" href="#">Forgot password?</a>
+        <p className="text-muted hover-primary fs-13" >Forgot password?</p>
       </div>
       <div className="form-group">
         <button className="btn btn-bold btn-block btn-primary" type="submit">Login</button>

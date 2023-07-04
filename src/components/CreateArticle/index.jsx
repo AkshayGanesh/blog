@@ -1,53 +1,96 @@
-import React from 'react';
-import Banner from './../Banner';
+import React from "react";
 
-const CreateArticle = () => {
-  return (
-    <div>
+import Banner from "./../Banner";
+import Alert from "./alerts";
+import Editor from "./editor";
+import Axios from "axios";
+import LoadingSpinner from "../config/loadingSpinner";
 
-  <Banner
-  backgroundImage={`url(${process.env.PUBLIC_URL}/assets/img/bg-laptop.jpg)`}
-  title="Write an Article"
-  />
-  {/* END Header */}
-  {/* Main container */}
-  <main className="main-content">
-    <section className="section">
-      <div className="container">
-        <div className="row">
-          <div className="col-12 col-lg-12">
-            <form className="p-30 bg-gray rounded" method="POST" data-form="mailer">
+class CreateArticle extends React.Component {
+  state = {
+    msg: "",
+    postAlertType: "hide",
+    postAlertMessage: "",
+    isLoading: false,
+  };
+
+  handleCallback = (childData) => {
+    this.setState({ msg: childData });
+  };
+
+  handleAlertClose = () => {
+    this.setState({
+      postAlertType: "hide",
+      postAlertMessage: "",
+    });
+  };
+
+  sendEditorData = () => {
+    this.setState({ isLoading: true });
+    Axios.post("http://localhost:8000/api/articles/create", {
+      article: this.state.msg,
+    })
+      .then(() => {
+        this.setState({ isLoading: false });
+        this.setState({
+          postAlertType: "success",
+          postAlertMessage: "Article added successfully!",
+        });
+        setTimeout(function () {
+          window.location.replace("/");
+        }, 1000);
+      })
+      .catch(() => {
+        this.setState({ isLoading: false });
+        this.setState({
+          postAlertType: "error",
+          postAlertMessage: "Error adding article!",
+        });
+      });
+  };
+
+  render() {
+    const renderEditor = (
+      <div>
+        <Banner
+          backgroundImage={`url(${process.env.PUBLIC_URL}/assets/img/bg-laptop.jpg)`}
+          title="Write an Article"
+        />
+        {/* END Header */}
+        {/* Main container */}
+        <main className="main-content">
+          <section className="section">
+            <div className="container">
               <div className="row">
-                <div className="form-group col-md-12 my-5">
-                  <input type="file" className="form-control"/>
-                </div>
-                <div className="form-group col-12 col-md-6">
-                  <input className="form-control form-control-lg" type="text" name="name" placeholder="Title" />
-                </div>
-                <div className="form-group col-12 col-md-6">
-                  <select name id className="form-control form-control-lg">
-                    <option value>Select category</option>
-                    <option value>Vuejs</option>
-                    <option value>Reactjs</option>
-                    <option value>Python</option>
-                  </select>
+                <div className="col-12 col-lg-12">
+                  <Editor parentCallback={this.handleCallback} />
+                  <br />
+                  <div className="text-center">
+                    <button
+                      className="btn btn-lg btn-primary"
+                      type="submit"
+                      form="createArticle"
+                      onClick={this.sendEditorData}
+                    >
+                      Create Article
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="form-group">
-                <textarea className="form-control form-control-lg" rows={4} placeholder="Content" name="message" defaultValue={""} />
-              </div>
-              <div className="text-center">
-                <button className="btn btn-lg btn-primary" type="submit">Create Article</button>
-              </div>
-            </form>
-          </div>
-        </div>
+              <Alert
+                type={this.state.postAlertType}
+                message={this.state.postAlertMessage}
+                parentCallback={this.handleAlertClose}
+              />
+            </div>
+          </section>
+        </main>
+        {/* END Main container */}
       </div>
-    </section>
-  </main>
-  {/* END Main container */}
-</div>
-
-  );
-};
+    );
+    return (
+      <div>{this.state.isLoading ? <LoadingSpinner /> : renderEditor}</div>
+    );
+  }
+}
 export default CreateArticle;

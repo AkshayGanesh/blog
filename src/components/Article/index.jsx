@@ -8,10 +8,10 @@ const Article = () => {
       <header className="text-center mb-40">
         <h3>
           {/* <a href="blog-single.html">New features will add to dashboard soon</a> */}
-          Python is slow? Don’t want to learn C as well? Welcome to Cython
+          Python is slow? Don't want to learn C as well? Welcome to Cython
         </h3>
         <div className="link-color-default fs-12">
-          <a href="#">News</a>,<time>March 29, 2021</time>
+          <p href="#">News</p>,<time>March 29, 2021</time>
         </div>
       </header>
       {/* <a href="blog-single.html"> */}
