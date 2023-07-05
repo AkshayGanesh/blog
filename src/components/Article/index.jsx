@@ -2,39 +2,49 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 
-const Article = () => {
-  return (
-    <article className="mt-90">
-      <header className="text-center mb-40">
-        <h3>
-          {/* <a href="blog-single.html">New features will add to dashboard soon</a> */}
-          Python is slow? Don't want to learn C as well? Welcome to Cython
-        </h3>
+class Article extends React.Component {
+  render() {
+    return (
+      <div
+        // className="mt-90"
+        style={{
+          border: "#535353",
+          "borderWidth": "thin",
+          "borderStyle": "solid",
+          "borderRadius": "10px",
+        }}
+      >
+        <header className="text-center mb-40">
+          <h2>{this.props.article_header}</h2>
+        </header>
         <div className="link-color-default fs-12">
-          <p href="#">News</p>,<time>March 29, 2021</time>
+          <time>
+            <h4>March 29, 2021</h4>
+          </time>
         </div>
-      </header>
-      {/* <a href="blog-single.html"> */}
 
-      {/* </a> */}
-      <div className="card-block">
-        <img className="rounded" src="assets/img/blog-1.jpg" alt="..." />
-        <p className="text-justify">
-          Cython enables you to speed up your python logic exponentially. If you
-          have not entered the world of Cython, feel free to go through this
-          article
-        </p>
-        <p className="text-center mt-40">
-          <Link
-            className="btn btn-primary btn-round"
-            to="/article/some-title-slug"
-          >
-            Read more
-          </Link>
-        </p>
+        <div>
+          <img
+            className="rounded"
+            src="assets/img/blog-1.jpg"
+            alt={this.props.article_header}
+            width="80%"
+          />
+          {/* <p className="text-justify">
+            This is a placeholder
+          </p> */}
+          <p className="text-center mt-40">
+            <Link
+              className="btn btn-primary btn-round"
+              to={`/article/${this.props.article_id}`}
+            >
+              Read more
+            </Link>
+          </p>
+        </div>
       </div>
-    </article>
-  );
-};
+    );
+  }
+}
 
 export default Article;

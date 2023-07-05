@@ -1,47 +1,73 @@
 import React from "react";
+import Axios from "axios";
+import FormData from "form-data";
 
 import Banner from "./../Banner";
 import Alert from "./alerts";
 import Editor from "./editor";
-import Axios from "axios";
 import LoadingSpinner from "../config/loadingSpinner";
 
 class CreateArticle extends React.Component {
   state = {
-    msg: "",
+    article_body: "",
+    article_header: "",
+    thumbnailImage: null,
     postAlertType: "hide",
     postAlertMessage: "",
     isLoading: false,
+    articleData: new FormData(),
   };
 
-  handleCallback = (childData) => {
-    this.setState({ msg: childData });
+  addArticleBody = (childData) => {
+    this.setState({ article_body: childData });
+  };
+
+  addArticleHeader = (event) => {
+    this.setState({ article_header: event.target.value });
+  };
+
+  addArticleThumbnail = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      this.setState({ image: URL.createObjectURL(event.target.files[0]) });
+      this.setState({ thumbnailImage: event.target.files[0] });
+    }
   };
 
   handleAlertClose = () => {
     this.setState({
       postAlertType: "hide",
       postAlertMessage: "",
+      image: null,
     });
   };
 
   sendEditorData = () => {
     this.setState({ isLoading: true });
-    Axios.post("http://localhost:8000/api/articles/create", {
-      article: this.state.msg,
-    })
+    this.state.articleData.append("thumbnailImage", this.state.thumbnailImage);
+    this.state.articleData.append("article_header", this.state.article_header);
+    this.state.articleData.append("article_body", this.state.article_body);
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    Axios.post(
+      "http://localhost:8000/api/articles/create",
+      this.state.articleData,
+      config
+    )
       .then(() => {
         this.setState({ isLoading: false });
+        this.setState({ image: null });
         this.setState({
           postAlertType: "success",
           postAlertMessage: "Article added successfully!",
         });
-        setTimeout(function () {
-          window.location.replace("/");
-        }, 1000);
+        // setTimeout(function () {
+        //   window.location.replace("/");
+        // }, 2500);
       })
       .catch(() => {
         this.setState({ isLoading: false });
+        this.setState({ image: null });
         this.setState({
           postAlertType: "error",
           postAlertMessage: "Error adding article!",
@@ -61,20 +87,57 @@ class CreateArticle extends React.Component {
         <main className="main-content">
           <section className="section">
             <div className="container">
-              <div className="row">
-                <div className="col-12 col-lg-12">
-                  <Editor parentCallback={this.handleCallback} />
-                  <br />
-                  <div className="text-center">
-                    <button
-                      className="btn btn-lg btn-primary"
-                      type="submit"
-                      form="createArticle"
-                      onClick={this.sendEditorData}
-                    >
-                      Create Article
-                    </button>
-                  </div>
+              <div className="col-12 col-lg-12">
+                <label className="form-label d-flex">Article Title</label>
+                <input
+                  className="form-control form-control-lg"
+                  style={{
+                    "borderStyle": "solid",
+                    "borderWidth": "2px",
+                    "borderColor": "#535353",
+                  }}
+                  type="text"
+                  placeholder=""
+                  autoFocus={true}
+                  required={true}
+                  onChange={this.addArticleHeader}
+                />
+                <br />
+                <div className="mb-3">
+                  <label className="form-label d-flex">Upload thumbnail</label>
+                  <input
+                    className="form-control"
+                    type="file"
+                    id="formFile"
+                    accept="image/*"
+                    onChange={this.addArticleThumbnail}
+                  />
+                  {this.state.image ? (
+                    <div className="col-12 col-lg-12">
+                      <br />
+                      <label className="form-label d-flex">Thumbnail Preview</label>
+                      <img
+                        alt="thumbnail preview"
+                        src={this.state.image}
+                        height={250}
+                      />
+                      <br />
+                    </div>
+                  ) : null}
+                </div>
+                <br />
+                <label className="form-label d-flex">Article Body</label>
+                <Editor parentCallback={this.addArticleBody} />
+                <br />
+                <div className="text-center">
+                  <button
+                    className="btn btn-lg btn-primary"
+                    type="submit"
+                    form="createArticle"
+                    onClick={this.sendEditorData}
+                  >
+                    Create Article
+                  </button>
                 </div>
               </div>
               <Alert
