@@ -13,7 +13,7 @@ class Welcome extends React.Component {
     window.scrollTo(0, 0);
   }
   getPost = (slug) => {
-    Axios.get(`http://localhost:8000/api/articles`)
+    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/api/articles`)
       .then((response) => {
         this.setState({ articles: response.data.data });
       })
@@ -28,6 +28,7 @@ class Welcome extends React.Component {
           <Article
             article_header={article.article_header}
             article_id={article.article_id}
+            article_date={article.article_date}
           />
         </div>
       );

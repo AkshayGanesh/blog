@@ -50,7 +50,7 @@ class CreateArticle extends React.Component {
       headers: { "content-type": "multipart/form-data" },
     };
     Axios.post(
-      "http://localhost:8000/api/articles/create",
+      `${process.env.REACT_APP_API_HOST_URL}/api/articles/create`,
       this.state.articleData,
       config
     )
@@ -61,9 +61,9 @@ class CreateArticle extends React.Component {
           postAlertType: "success",
           postAlertMessage: "Article added successfully!",
         });
-        // setTimeout(function () {
-        //   window.location.replace("/");
-        // }, 2500);
+        setTimeout(function() {
+          window.location.replace("/");
+        }, 2500);
       })
       .catch(() => {
         this.setState({ isLoading: false });
@@ -92,9 +92,9 @@ class CreateArticle extends React.Component {
                 <input
                   className="form-control form-control-lg"
                   style={{
-                    "borderStyle": "solid",
-                    "borderWidth": "2px",
-                    "borderColor": "#535353",
+                    borderStyle: "solid",
+                    borderWidth: "2px",
+                    borderColor: "#535353",
                   }}
                   type="text"
                   placeholder=""
@@ -115,7 +115,9 @@ class CreateArticle extends React.Component {
                   {this.state.image ? (
                     <div className="col-12 col-lg-12">
                       <br />
-                      <label className="form-label d-flex">Thumbnail Preview</label>
+                      <label className="form-label d-flex">
+                        Thumbnail Preview
+                      </label>
                       <img
                         alt="thumbnail preview"
                         src={this.state.image}

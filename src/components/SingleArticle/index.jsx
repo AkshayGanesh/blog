@@ -18,7 +18,7 @@ class SingleArticle extends React.Component {
     }
   }
   getPost = (slug) => {
-    Axios.get(`http://localhost:8000/api/articles/${slug}`)
+    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/api/articles/${slug}`)
       .then((response) => {
         this.setState({articleData: response.data.data})
       })

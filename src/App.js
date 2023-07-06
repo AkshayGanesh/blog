@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { BrowserRouter, Route, withRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Welcome from './components/Welcome';
@@ -8,6 +9,7 @@ import SignUp from './components/SignUp/index';
 import SingleArticle from './components/SingleArticle';
 import CreateArtice from './components/CreateArticle';
 
+require('dotenv').config()
 
 const Main = withRouter(({ location }) => {
   return (

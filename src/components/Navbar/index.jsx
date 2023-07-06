@@ -28,28 +28,34 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                to="/articles/create"
-              >
+              <NavLink className="nav-link" to="/articles/create">
                 Write New Article
               </NavLink>
             </li>
-            {/* <li className="nav-item">
-                <a className="nav-link" href="#">Hello Guest!
-                  <i className="fa fa-caret-down" />
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                Hello Guest!
+                <i className="fa fa-caret-down" />
+              </a>
+              <div className="nav-submenu">
+                <a className="nav-link" href="page-login.html">
+                  My articles
                 </a>
-                <div className="nav-submenu">
-                  <a className="nav-link" href="page-login.html">My articles</a>
-                  <a className="nav-link" href>Logout</a>
-                </div>
-              </li> */}
-            {/* <li className="nav-item">
-                <Link className="nav-link" to="/login">Login</Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/signup">Signup</a>
-              </li> */}
+                <a className="nav-link" href>
+                  Logout
+                </a>
+              </div>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/signup">
+                Signup
+              </a>
+            </li>
           </ul>
         </div>
       </div>
