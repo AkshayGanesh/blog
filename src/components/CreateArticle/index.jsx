@@ -3,9 +3,9 @@ import Axios from "axios";
 import FormData from "form-data";
 
 import Banner from "./../Banner";
-import Alert from "./alerts";
+import Alert from "../Utilities/alerts";
 import Editor from "./editor";
-import LoadingSpinner from "../config/loadingSpinner";
+import LoadingSpinner from "../Utilities/loadingSpinner";
 
 class CreateArticle extends React.Component {
   state = {

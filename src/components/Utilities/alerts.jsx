@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Alert({ children, type, message }) {
   const [isShow, setIsShow] = useState(true);
 
-  const renderElAlert = function () {
+  const renderElAlert = function() {
     return React.cloneElement(children);
   };
 

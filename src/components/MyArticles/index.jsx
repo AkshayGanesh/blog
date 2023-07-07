@@ -1,10 +1,11 @@
 import React from "react";
-import Banner from "./../Banner";
-import Article from "../AllArticles";
-
 import Axios from "axios";
 
-class Welcome extends React.Component {
+import Banner from "./../Banner";
+import Article from "../AllArticles";
+import "./index.css";
+
+class MyArticles extends React.Component {
   state = {
     articles: [],
   };
@@ -36,12 +37,12 @@ class Welcome extends React.Component {
       <div>
         <Banner
           backgroundImage="url(assets/img/bg-gift.jpg)"
-          title="Discovering the data journey!"
+          title="My Articles"
           subtitle=""
         />
 
         <main className="main-content bg-gray">
-          <div className="row">
+          <div className="column">
             <div
               className="col-12 col-lg-6 offset-lg-3"
               style={{
@@ -76,5 +77,4 @@ class Welcome extends React.Component {
     );
   }
 }
-
-export default Welcome;
+export default MyArticles;
