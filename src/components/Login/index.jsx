@@ -44,7 +44,7 @@ class Login extends React.Component {
               postAlertType: "success",
               postAlertMessage: `User ${data.username} logged in successfully!`,
             });
-            setTimeout(function() {
+            setTimeout(function () {
               window.location.replace("/");
             }, 2500);
           })
@@ -68,71 +68,68 @@ class Login extends React.Component {
           flexDirection: "column",
         }}
       >
-        <div class="layer">
-          <div
-            className="card card-shadowed p-50 w-400 mb-0"
-            style={{ maxWidth: "100%" }}
-          >
-            <h5 className="text-uppercase text-center">Login</h5>
-            <br />
-            <br />
-            <form className="form-type-material" onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="username"
-                  placeholder="Username"
-                  onChange={this.handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  placeholder="Password"
-                  onChange={this.handleInputChange}
-                />
-              </div>
-              <div className="form-group flexbox py-10">
-                <label className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    name="checkbox"
-                    onChange={this.handleInputChange}
-                  />
-                  <span className="custom-control-indicator" />
-                  <span className="custom-control-description">
-                    Remember me
-                  </span>
-                </label>
-                <p className="text-muted hover-primary fs-13">
-                  Forgot password?
-                </p>
-              </div>
-              <div className="form-group">
-                <button
-                  className="btn btn-bold btn-block btn-primary"
-                  type="submit"
-                >
-                  Login
-                </button>
-              </div>
-            </form>
-            <hr className="w-30" />
-            <p className="text-center text-muted fs-13 mt-20">
-              Don't have an account? <Link to="/signup">Sign up</Link>
-            </p>
-          </div>
+        <div
+          className="card card-shadowed p-50 w-400 mb-0"
+          style={{ maxWidth: "100%" }}
+        >
+          <h5 className="text-uppercase text-center">Login</h5>
           <br />
-          <Alert
-            type={this.state.postAlertType}
-            message={this.state.postAlertMessage}
-            parentCallback={this.handleAlertClose}
-          />
+          <br />
+          <form className="form-type-material" onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                placeholder="Username"
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                placeholder="Password"
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group flexbox py-10">
+              <label className="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="checkbox"
+                  onChange={this.handleInputChange}
+                />
+                <span className="custom-control-indicator" />
+                <span className="custom-control-description">Remember me</span>
+              </label>
+              <p className="text-muted hover-primary fs-13">Forgot password?</p>
+            </div>
+            <div className="form-group">
+              <button
+                className="btn btn-bold btn-block btn-primary"
+                type="submit"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+          <hr className="w-30" />
+          <p className="text-center text-muted fs-13 mt-20">
+            Don't have an account?{" "}
+            <Link className="nav-link" to="/signup">
+              Sign Up
+            </Link>
+          </p>
         </div>
+        <br />
+        <Alert
+          type={this.state.postAlertType}
+          message={this.state.postAlertMessage}
+          parentCallback={this.handleAlertClose}
+        />
       </div>
     );
   }

@@ -30,7 +30,7 @@ function withRouter(Component) {
   return ComponentWithRouterProp;
 }
 
-const Main = withRouter(({ location }) => {
+const Main = withRouter(() => {
   return (
     <div>
       <Navbar/>

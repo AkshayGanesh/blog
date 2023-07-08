@@ -1,21 +1,38 @@
 import React from "react";
 import Axios from "axios";
 import { validateAll } from "indicative/validator";
+import { Link } from "react-router-dom";
 
 import Alert from "../Utilities/alerts";
+import encryptMessage from "../Utilities/aes";
 
 class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: "",
+      name: "",
       email: "",
       password: "",
       password_confirmation: "",
       errors: [],
       postAlertType: "hide",
       postAlertMessage: "",
+      keys: "",
     };
+  }
+
+  getAPIKeysConstants = () => {
+    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/api/auth/token`)
+      .then((response) => {
+        this.setState({ keys: response.data });
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  };
+
+  componentDidMount() {
+    this.getAPIKeysConstants();
   }
 
   handleAlertClose = () => {
@@ -36,7 +53,7 @@ class SignUp extends React.Component {
     // validating user data
     const data = this.state;
     const rules = {
-      username: "required|string",
+      name: "required|string",
       email: "required|email",
       password: "required|string|min:6|confirmed",
     };
@@ -47,25 +64,30 @@ class SignUp extends React.Component {
     };
     validateAll(data, rules, messages)
       .then(() => {
-        //successfull login
+        const encrypted_password = encryptMessage(
+          this.state.email,
+          this.state.password,
+          this.state.keys["unique_key"]
+        );
         Axios.post(`${process.env.REACT_APP_API_HOST_URL}/api/auth/register`, {
-          username: this.state.username,
+          name: this.state.name,
           email: this.state.email,
-          password: this.state.password,
+          password: encrypted_password,
         })
           .then((response) => {
             this.setState({
               postAlertType: "success",
               postAlertMessage: `User ${response.data.data} added successfully!`,
             });
-            setTimeout(function() {
+            setTimeout(function () {
               window.location.replace("/");
             }, 2500);
           })
           .catch((error) => {
+            console.log(error);
             this.setState({
-              postAlertType: "success",
-              postAlertMessage: `Error adding user: ${error}!`,
+              postAlertType: "error",
+              postAlertMessage: error.response.data.detail[0],
             });
           });
       })
@@ -103,7 +125,7 @@ class SignUp extends React.Component {
                 type="text"
                 className="form-control"
                 name="name"
-                placeholder="Username"
+                placeholder="Name"
                 onChange={this.handleInputChange}
               />
               {this.state.errors["name"] && (
@@ -160,7 +182,9 @@ class SignUp extends React.Component {
           <hr className="w-30" />
           <p className="text-center text-muted fs-13 mt-20">
             Already have an account?
-            <a href="login.html">Sign in</a>
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
           </p>
         </div>
         <br />
