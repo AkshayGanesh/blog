@@ -2,26 +2,47 @@ import React from "react";
 import Axios from "axios";
 
 import Banner from "./../Banner";
-import Article from "../AllArticles";
+import Article from "../ArticleCard";
 import "./index.css";
 
 class MyArticles extends React.Component {
   state = {
     articles: [],
+    authenticated: false,
+    name: "",
   };
+
   componentDidMount() {
+    this.getNavbarInfo();
     this.getPost();
     window.scrollTo(0, 0);
   }
+
   getPost = (slug) => {
-    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/api/articles`)
+    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/articles/my`)
       .then((response) => {
         this.setState({ articles: response.data.data });
       })
       .catch(() => {});
   };
 
+  getNavbarInfo = () => {
+    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/welcome/nav`)
+      .then((response) => {
+        if (response.data.name) {
+          this.setState({ authenticated: true, name: response.data.name });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
+    let authentication_info = {
+      authenticated: this.state.authenticated,
+      name: this.state.name,
+    };
     let articleList = this.state.articles.map((article, i) => {
       return (
         <div key={i}>
@@ -29,6 +50,7 @@ class MyArticles extends React.Component {
             article_header={article.article_header}
             article_id={article.article_id}
             article_date={article.article_date}
+            authentication_info={authentication_info}
           />
         </div>
       );

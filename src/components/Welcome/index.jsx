@@ -1,19 +1,36 @@
 import React from "react";
 import Banner from "./../Banner";
-import Article from "../AllArticles";
+import Article from "../ArticleCard";
 
 import Axios from "axios";
 
 class Welcome extends React.Component {
   state = {
     articles: [],
+    authenticated: false,
+    name: "",
   };
+
   componentDidMount() {
+    this.getNavbarInfo();
     this.getPost();
     window.scrollTo(0, 0);
   }
-  getPost = (slug) => {
-    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/api/articles`)
+
+  getNavbarInfo = () => {
+    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/welcome/nav`)
+      .then((response) => {
+        if (response.data.name) {
+          this.setState({ authenticated: true, name: response.data.name });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  getPost = () => {
+    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/articles`)
       .then((response) => {
         this.setState({ articles: response.data.data });
       })
@@ -21,6 +38,10 @@ class Welcome extends React.Component {
   };
 
   render() {
+    let authentication_info = {
+      authenticated: this.state.authenticated,
+      name: this.state.name,
+    };
     let articleList = this.state.articles.map((article, i) => {
       return (
         <div key={i}>
@@ -28,7 +49,9 @@ class Welcome extends React.Component {
             article_header={article.article_header}
             article_id={article.article_id}
             article_date={article.article_date}
+            authentication_info={authentication_info}
           />
+          <br />
         </div>
       );
     });
@@ -53,7 +76,7 @@ class Welcome extends React.Component {
             >
               <br />
               {articleList}
-              <br />
+
               <div
                 style={{
                   width: "100%",

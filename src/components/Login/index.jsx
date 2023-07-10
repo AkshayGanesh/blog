@@ -2,20 +2,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { validateAll } from "indicative/validator";
-import Alert from "../Utilities/alerts";
+import encryptMessage from "../Utilities/aes";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
+
+import "react-notifications/lib/notifications.css";
 import "./index.css";
 
 class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: "",
+      email: "",
       password: "",
       checkbox: "",
-      postAlertType: "hide",
-      postAlertMessage: "",
     };
   }
+
   handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
@@ -26,7 +31,7 @@ class Login extends React.Component {
     event.preventDefault();
     const data = this.state;
     const rules = {
-      username: "required|string",
+      email: "required|email",
       password: "required|string",
     };
     const messages = {
@@ -35,24 +40,26 @@ class Login extends React.Component {
 
     validateAll(data, rules, messages)
       .then(() => {
-        Axios.post(`${process.env.REACT_APP_API_HOST_URL}/api/auth/login`, {
-          username: data.username,
-          password: data.password,
+        const encrypted_password = encryptMessage(data.password);
+        Axios.post(`${process.env.REACT_APP_API_HOST_URL}/auth/login`, {
+          email: data.email,
+          password: encrypted_password,
         })
           .then((response) => {
-            this.setState({
-              postAlertType: "success",
-              postAlertMessage: `User ${data.username} logged in successfully!`,
-            });
+            NotificationManager.success(
+              `User ${response.data.name} logged in successfully!`,
+              "Logged In"
+            );
             setTimeout(function () {
               window.location.replace("/");
-            }, 2500);
+            }, 1000);
           })
           .catch((error) => {
-            this.setState({
-              postAlertType: "error",
-              postAlertMessage: `Error adding user: ${error}!`,
-            });
+            console.log(error);
+            NotificationManager.error(
+              error.response.data.data,
+              "Error logging In"
+            );
           });
       })
       .catch(() => {});
@@ -68,6 +75,7 @@ class Login extends React.Component {
           flexDirection: "column",
         }}
       >
+        <NotificationContainer />
         <div
           className="card card-shadowed p-50 w-400 mb-0"
           style={{ maxWidth: "100%" }}
@@ -80,8 +88,8 @@ class Login extends React.Component {
               <input
                 type="text"
                 className="form-control"
-                name="username"
-                placeholder="Username"
+                name="email"
+                placeholder="Email"
                 onChange={this.handleInputChange}
               />
             </div>
@@ -125,11 +133,6 @@ class Login extends React.Component {
           </p>
         </div>
         <br />
-        <Alert
-          type={this.state.postAlertType}
-          message={this.state.postAlertMessage}
-          parentCallback={this.handleAlertClose}
-        />
       </div>
     );
   }

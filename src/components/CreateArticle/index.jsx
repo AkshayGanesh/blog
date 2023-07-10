@@ -3,17 +3,20 @@ import Axios from "axios";
 import FormData from "form-data";
 
 import Banner from "./../Banner";
-import Alert from "../Utilities/alerts";
 import Editor from "./editor";
 import LoadingSpinner from "../Utilities/loadingSpinner";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
+
+import "react-notifications/lib/notifications.css";
 
 class CreateArticle extends React.Component {
   state = {
     article_body: "",
     article_header: "",
     thumbnailImage: null,
-    postAlertType: "hide",
-    postAlertMessage: "",
     isLoading: false,
     articleData: new FormData(),
   };
@@ -33,14 +36,6 @@ class CreateArticle extends React.Component {
     }
   };
 
-  handleAlertClose = () => {
-    this.setState({
-      postAlertType: "hide",
-      postAlertMessage: "",
-      image: null,
-    });
-  };
-
   sendEditorData = () => {
     this.setState({ isLoading: true });
     this.state.articleData.append("thumbnailImage", this.state.thumbnailImage);
@@ -50,28 +45,26 @@ class CreateArticle extends React.Component {
       headers: { "content-type": "multipart/form-data" },
     };
     Axios.post(
-      `${process.env.REACT_APP_API_HOST_URL}/api/articles/create`,
+      `${process.env.REACT_APP_API_HOST_URL}/articles/create`,
       this.state.articleData,
       config
     )
       .then(() => {
         this.setState({ isLoading: false });
-        this.setState({ image: null });
-        this.setState({
-          postAlertType: "success",
-          postAlertMessage: "Article added successfully!",
-        });
-        setTimeout(function() {
-          window.location.replace("/");
-        }, 2500);
+        NotificationManager.success("Article added successfully!", "Success");
+        setTimeout(
+          function () {
+            this.setState({ isLoading: false });
+            this.setState({ image: null });
+            window.location.replace("/");
+          }.bind(this),
+          2000
+        );
       })
       .catch(() => {
         this.setState({ isLoading: false });
         this.setState({ image: null });
-        this.setState({
-          postAlertType: "error",
-          postAlertMessage: "Error adding article!",
-        });
+        NotificationManager.error("Error adding article!", "Error");
       });
   };
 
@@ -87,6 +80,7 @@ class CreateArticle extends React.Component {
         <main className="main-content">
           <section className="section">
             <div className="container">
+              <NotificationContainer />
               <div className="col-12 col-lg-12">
                 <label className="form-label d-flex">Article Title</label>
                 <input
@@ -142,15 +136,9 @@ class CreateArticle extends React.Component {
                   </button>
                 </div>
               </div>
-              <Alert
-                type={this.state.postAlertType}
-                message={this.state.postAlertMessage}
-                parentCallback={this.handleAlertClose}
-              />
             </div>
           </section>
         </main>
-        {/* END Main container */}
       </div>
     );
     return (

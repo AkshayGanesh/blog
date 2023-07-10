@@ -3,8 +3,13 @@ import Axios from "axios";
 import { validateAll } from "indicative/validator";
 import { Link } from "react-router-dom";
 
-import Alert from "../Utilities/alerts";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
 import encryptMessage from "../Utilities/aes";
+
+import "react-notifications/lib/notifications.css";
 
 class SignUp extends React.Component {
   constructor() {
@@ -15,32 +20,8 @@ class SignUp extends React.Component {
       password: "",
       password_confirmation: "",
       errors: [],
-      postAlertType: "hide",
-      postAlertMessage: "",
-      keys: "",
     };
   }
-
-  getAPIKeysConstants = () => {
-    Axios.get(`${process.env.REACT_APP_API_HOST_URL}/api/auth/token`)
-      .then((response) => {
-        this.setState({ keys: response.data });
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  };
-
-  componentDidMount() {
-    this.getAPIKeysConstants();
-  }
-
-  handleAlertClose = () => {
-    this.setState({
-      postAlertType: "hide",
-      postAlertMessage: "",
-    });
-  };
 
   handleInputChange = (event) => {
     this.setState({
@@ -64,31 +45,26 @@ class SignUp extends React.Component {
     };
     validateAll(data, rules, messages)
       .then(() => {
-        const encrypted_password = encryptMessage(
-          this.state.email,
-          this.state.password,
-          this.state.keys["unique_key"]
-        );
-        Axios.post(`${process.env.REACT_APP_API_HOST_URL}/api/auth/register`, {
+        const encrypted_password = encryptMessage(this.state.password);
+        Axios.post(`${process.env.REACT_APP_API_HOST_URL}/auth/register`, {
           name: this.state.name,
           email: this.state.email,
           password: encrypted_password,
         })
-          .then((response) => {
-            this.setState({
-              postAlertType: "success",
-              postAlertMessage: `User ${response.data.data} added successfully!`,
-            });
+          .then(() => {
+            NotificationManager.success(
+              `User ${this.state.name} added!`,
+              "Success"
+            );
             setTimeout(function () {
               window.location.replace("/");
-            }, 2500);
+            }, 1000);
           })
           .catch((error) => {
-            console.log(error);
-            this.setState({
-              postAlertType: "error",
-              postAlertMessage: error.response.data.detail[0],
-            });
+            NotificationManager.error(
+              error.response.data.detail[0],
+              "Error adding user"
+            );
           });
       })
       .catch((errors) => {
@@ -112,6 +88,7 @@ class SignUp extends React.Component {
           flexDirection: "column",
         }}
       >
+        <NotificationContainer />
         <div
           className="card card-shadowed p-50 w-400 mb-0"
           style={{ maxWidth: "100%" }}
@@ -188,11 +165,6 @@ class SignUp extends React.Component {
           </p>
         </div>
         <br />
-        <Alert
-          type={this.state.postAlertType}
-          message={this.state.postAlertMessage}
-          parentCallback={this.handleAlertClose}
-        />
       </div>
     );
   }

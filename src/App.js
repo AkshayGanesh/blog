@@ -5,14 +5,11 @@ import Navbar from './components/Navbar';
 import Welcome from './components/Welcome';
 import Footer from './components/Footer';
 import Login from './components/Login';
+import Logout from './components/Logout';
 import SignUp from './components/SignUp/index';
-import SingleArticle from './components/SingleArticle';
+import MyComponentWrapper from './components/SingleArticle';
 import CreateArtice from './components/CreateArticle';
 import MyArticles from './components/MyArticles';
-
-
-// require('dotenv').config()
-
 
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -37,7 +34,8 @@ const Main = withRouter(() => {
       <Routes>
         <Route exact path="/" element={<Welcome/>}/>   
         <Route path="/login" element={<Login/>}/>
-        <Route path="/article/:slug" element={<SingleArticle/>}/>
+        <Route path="/logout" element={<Logout/>}/>
+        <Route path="/article/:slug" element={<MyComponentWrapper/>}/>
         <Route path="/articles/create" element={<CreateArtice/>}/>
         <Route path="/articles/myarticles" element={<MyArticles/>}/>
         <Route path="/signup" element={<SignUp/>}/>

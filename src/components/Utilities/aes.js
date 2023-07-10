@@ -1,7 +1,8 @@
 // JavaScript function to encrypt a string message using AES encryption in CBC mode
-function encryptMessage(username, password, unique_key) {
+function encryptMessage(password) {
     const CryptoJS = require('crypto-js');
-    const encKey = username.slice(0, 3) + unique_key
+    const encKey = process.env.REACT_APP_ENCRYPTION_KEY
+    
     const keyHex = CryptoJS.enc.Utf8.parse(encKey);
     
     const iv = CryptoJS.lib.WordArray.random(16);
