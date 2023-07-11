@@ -45,17 +45,21 @@ class Editor extends React.Component {
 
 Editor.modules = {
   toolbar: [
-    [{ header: "1" }, { header: "2" }, { font: [] }],
-    [{ size: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
+    ["bold", "italic", "underline", "strike", { color: [] }],
+    [],
+    [{ header: "1" }, { header: "2" }, { font: [] }, { size: [] }],
+    ["blockquote", "code-block"],
+    [{ script: "sub" }, { script: "super" }],
     [
       { list: "ordered" },
       { list: "bullet" },
+      {},
       { indent: "-1" },
       { indent: "+1" },
     ],
-    ["link", "image", "video"],
-    ["clean"],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ["code", "link", "image", "video"],
+    // ["clean"],
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
@@ -81,6 +85,7 @@ Editor.formats = [
   "link",
   "image",
   "video",
+  "code",
 ];
 
 /*
